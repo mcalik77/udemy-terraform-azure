@@ -1,0 +1,6 @@
+# Local .terraform directory.
+.terraform/
+
+# Compiled state files.
+*.tfstate
+*.tfstate.backup
