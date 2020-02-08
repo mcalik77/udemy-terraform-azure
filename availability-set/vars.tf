@@ -7,6 +7,10 @@
 #
 # Reference the Azure Provider documentation for more information.
 
+variable environment {
+  default = "production"
+}
+
 variable resource_prefix {
   default = "test"
 }
