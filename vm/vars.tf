@@ -23,10 +23,5 @@ variable subnet_prefix {
   default = "10.0.1.0/24"
 }
 
-variable admin_username {
-  default = "Morpheus"
-}
-
-variable admin_password {
-  default = "F0llowTheWhiteRabbit!"
-}
+variable admin_username {}
+variable admin_password {}
