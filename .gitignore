@@ -5,3 +5,6 @@
 *.tfstate
 *.tfstate.backup
 *.tfstate.lock.info
+
+# Terraform variable file.
+terraform.tfvars
