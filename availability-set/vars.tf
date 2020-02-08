@@ -30,3 +30,7 @@ variable admin_username {
 variable admin_password {
   default = "F0llowTheWhiteRabbit!"
 }
+
+variable vm_count {
+  default = 2
+}

@@ -13,22 +13,47 @@ resource "azurerm_subnet" "test_subnet" {
 }
 
 resource "azurerm_public_ip" "test_public_ip" {
-  name                = join("", [var.resource_prefix, "-public-ip"])
+  name = join(
+    "",
+    [
+      var.resource_prefix,
+      format("%02d", count.index),
+      "-public-ip"
+    ]
+  )
+
   location            = azurerm_resource_group.test_rg.location
   resource_group_name = azurerm_resource_group.test_rg.name
   allocation_method   = "Dynamic"
+  count               = var.vm_count
 }
 
 resource "azurerm_network_interface" "test_nic" {
-  name                      = join("", [var.resource_prefix, "-nic"])
+  name = join(
+    "", 
+    [
+      var.resource_prefix,
+      format("%02d", count.index),
+      "-nic"
+    ]
+  )
+
   location                  = azurerm_resource_group.test_rg.location
   resource_group_name       = azurerm_resource_group.test_rg.name
-  network_security_group_id = azurerm_network_security_group.test_nsg.id
+  count                     = var.vm_count
 
   ip_configuration {
-    name                          = join("", [var.resource_prefix, "-ip"])
+    name = join(
+      "", 
+      [
+        var.resource_prefix,
+        format("%02d", count.index),
+        "-ip"
+      ]
+    )
+
     subnet_id                     = azurerm_subnet.test_subnet.id
     private_ip_address_allocation = "dynamic"
-    public_ip_address_id          = azurerm_public_ip.test_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.test_public_ip.*.id[count.index]
   }
 }
