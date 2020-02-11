@@ -1,0 +1,87 @@
+resource "azurerm_virtual_machine_scale_set" "test_vm" {
+  name                = join("", [var.resource_prefix, "-scale-set"])
+  location            = azurerm_resource_group.test_rg.location
+  resource_group_name = azurerm_resource_group.test_rg.name
+  upgrade_policy_mode = "manual"
+
+  sku {
+    name     = "Standard_B1s"
+    tier     = "Standard"
+    capacity = var.vm_count
+  }
+
+  storage_profile_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter-Server-Core-smalldisk"
+    version   = "latest"
+  }
+
+  storage_profile_os_disk {
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  os_profile {
+    computer_name_prefix = var.resource_prefix
+    admin_username       = var.admin_username
+    admin_password       = var.admin_password
+  }
+
+  os_profile_windows_config {
+    provision_vm_agent = true
+  }
+
+  network_profile {
+    name    = join("", [var.resource_prefix, "-network-profile"])
+    primary = true
+
+    ip_configuration {
+      name                                   = var.resource_prefix
+      primary                                = true
+      subnet_id                              = azurerm_subnet.test_subnet.id
+      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.test_lb_backend_pool.id]
+    }
+  }
+
+  extension {
+    name                 = join("", [var.resource_prefix, "-extension"])
+    publisher            = "Microsoft.Compute"
+    type                 = "CustomScriptExtension"
+    type_handler_version = "1.9"
+
+    settings = <<SETTINGS
+    {
+      "fileUris": ["https://raw.githubusercontent.com/eltimmo/learning/master/azureInstallWebServer.ps1"],
+      "commandToExecute": "start powershell -ExecutionPolicy Unrestricted -File azureInstallWebServer.ps1"
+    }
+    SETTINGS
+  }
+}
+
+resource "azurerm_traffic_manager_profile" "test_traffic_manager" {
+  name                   = join("", [var.resource_prefix, "-traffic-manager"])
+  resource_group_name    = azurerm_resource_group.test_rg.name
+  traffic_routing_method = "Weighted"
+
+  dns_config {
+    relative_name = var.domain_name
+    ttl           = 100
+  }
+
+  monitor_config {
+    protocol = "http"
+    port     = 80
+    path     = "/"
+  }
+}
+
+resource "azurerm_traffic_manager_endpoint" "test_traffic_manager_endpoint" {
+  name                = join("", [var.resource_prefix, "-endpoint"])
+  resource_group_name = azurerm_resource_group.test_rg.name
+  profile_name        = azurerm_traffic_manager_profile.test_traffic_manager.name
+  target_resource_id  = azurerm_public_ip.test_lb_public_ip.id
+  type                = "azureEndpoints"
+  weight              = 100
+}
