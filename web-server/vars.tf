@@ -7,29 +7,20 @@
 #
 # Reference the Azure Provider documentation for more information.
 
-variable environment {
-  default = "production"
-}
-
 variable resource_prefix {
-  default = "test"
+  default = "web-server"
 }
 
-variable az_region {
+variable server_region {
   default = "westus"
 }
 
-variable vnet_adress {
-  default = "10.0.0.0/16"
-}
+variable address_space {}
+variable subnets {}
+variable domain_name {}
 
-variable subnet_prefix {
-  default = "10.0.1.0/24"
-}
+variable server_name {}
+variable vm_count {}
 
 variable admin_username {}
 variable admin_password {}
-
-variable vm_count {
-  default = 2
-}

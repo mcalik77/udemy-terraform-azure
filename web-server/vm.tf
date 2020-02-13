@@ -1,7 +1,7 @@
-resource "azurerm_virtual_machine_scale_set" "test_vm" {
+resource "azurerm_virtual_machine_scale_set" "web_server_vm" {
   name                = join("", [var.resource_prefix, "-scale-set"])
-  location            = azurerm_resource_group.test_rg.location
-  resource_group_name = azurerm_resource_group.test_rg.name
+  location            = azurerm_resource_group.web_server_rg.location
+  resource_group_name = azurerm_resource_group.web_server_rg.name
   upgrade_policy_mode = "manual"
 
   sku {
@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine_scale_set" "test_vm" {
   }
 
   os_profile {
-    computer_name_prefix = var.resource_prefix
+    computer_name_prefix = var.server_name
     admin_username       = var.admin_username
     admin_password       = var.admin_password
   }
@@ -40,8 +40,8 @@ resource "azurerm_virtual_machine_scale_set" "test_vm" {
     ip_configuration {
       name                                   = var.resource_prefix
       primary                                = true
-      subnet_id                              = azurerm_subnet.test_subnet.id
-      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.test_lb_backend_pool.id]
+      subnet_id                              = azurerm_subnet.web_server_subnet.*.id[0]
+      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.web_server_lb_backend_pool.id]
     }
   }
 
