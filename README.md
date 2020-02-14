@@ -50,4 +50,4 @@ the [LICENSE](LICENSE) file for details.
 
 # Acknowledgments
 
-<a href="https://www.udemy.com/course/learning-terraform-on-microsoft-azure/" target="_blank">Learning Terraform on Microsoft Azure</a>
+[Learning Terraform on Microsoft Azure](https://www.udemy.com/course/learning-terraform-on-microsoft-azure/)
