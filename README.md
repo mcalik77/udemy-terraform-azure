@@ -1,8 +1,8 @@
 # Udemy Terraform Azure
 
-A repository used for the Learning Terraform on Microsoft Azure Udemy course.
-
 ![terraform](terraform.png)
+
+A repository used for Learning Terraform on Microsoft Azure Udemy course.
 
 # Usage
 
