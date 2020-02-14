@@ -4,8 +4,8 @@ resource "azurerm_traffic_manager_profile" "traffic_manager" {
     [
       module.web_server_westus.resource_prefix,
       "-traffic-manager"
-      ]
-    )
+    ]
+  )
 
   resource_group_name    = module.web_server_westus.web_server_rg_name
   traffic_routing_method = "Weighted"
@@ -28,8 +28,8 @@ resource "azurerm_traffic_manager_endpoint" "traffic_manager_westus" {
     [
       module.web_server_westus.resource_prefix,
       "-endpoint"
-      ]
-    )
+    ]
+  )
 
   resource_group_name = azurerm_traffic_manager_profile.traffic_manager.resource_group_name
   profile_name        = azurerm_traffic_manager_profile.traffic_manager.name
@@ -44,8 +44,8 @@ resource "azurerm_traffic_manager_endpoint" "traffic_manager_eastus" {
     [
       module.web_server_eastus.resource_prefix,
       "-endpoint"
-      ]
-    )
+    ]
+  )
 
   resource_group_name = azurerm_traffic_manager_profile.traffic_manager.resource_group_name
   profile_name        = azurerm_traffic_manager_profile.traffic_manager.name
