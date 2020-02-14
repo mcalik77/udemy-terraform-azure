@@ -2,7 +2,7 @@
 
 ![terraform](terraform.png)
 
-A repository used for Learning Terraform on Microsoft Azure Udemy course.
+A repository used for the Udemy course: Learning Terraform on Microsoft Azure.
 
 # Usage
 
