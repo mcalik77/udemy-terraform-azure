@@ -43,10 +43,14 @@ Do you want to perform these actions?
 Apply complete! Resources: 31 added, 0 changed, 0 destroyed.
 ```
 
+[Back to top](#usage)
+
 # License
 
 This repository is licensed under the **GNU General Public License v3.0** - see
 the [LICENSE](LICENSE) file for details.
+
+[Back to top](#usage)
 
 # Acknowledgments
 
